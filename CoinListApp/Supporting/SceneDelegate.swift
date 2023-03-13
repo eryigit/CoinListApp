@@ -13,8 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         window?.makeKeyAndVisible()
-        let nav = UINavigationController(rootViewController: TabBarVC())
-        window?.rootViewController = nav
+        window?.rootViewController = TabBarVC()
     }
 
    

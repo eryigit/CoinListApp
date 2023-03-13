@@ -15,24 +15,36 @@ class CoinListVC: UIViewController {
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
        return tableView
     }()
+    
+    private func setNavBar() {
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 55, width: self.view.frame.width, height: 44))
+        navBar.barTintColor = .white
+        let navItem = UINavigationItem(title: "Coin Market")
+        let refreshItem = UIBarButtonItem(image: UIImage(systemName: "repeat"), style: .plain, target: self, action: #selector(refreshData))
+        navItem.rightBarButtonItem = refreshItem
+        navBar.setItems([navItem], animated: true)
+        self.view.addSubview(navBar)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
         configureTableView()
+        setNavBar()
         getCoinDetails()
         Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(timerRefresh), userInfo: nil, repeats: true)
-
     }
     
     @objc func timerRefresh() {
-        getCoinDetails()
         coinList.removeAll()
+        getCoinDetails()
+    }
+    
+    @objc func refreshData() {
+        coinList.removeAll()
+        getCoinDetails()
     }
     
     private func getCoinDetails() {
@@ -54,7 +66,6 @@ class CoinListVC: UIViewController {
                     coinList.append(eachCoin)
 
                 }
-               
             }catch {
                 print(error.localizedDescription)
             }
@@ -69,7 +80,7 @@ class CoinListVC: UIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }

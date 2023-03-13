@@ -3,7 +3,6 @@
 import UIKit
 
 class FavoriteVC: UIViewController {
-    
     var favList = [CoinDetails]()
     
         let favTableView: UITableView = {
@@ -13,26 +12,39 @@ class FavoriteVC: UIViewController {
         return tableView
     }()
 
+    private func setNavigationBar() {
+         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 55, width: self.view.frame.width, height: 44))
+         navBar.barTintColor = .white
+         let navItem = UINavigationItem(title: "Favorite Coins")
+         let doneItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButton))
+         navItem.rightBarButtonItem = doneItem
+         navBar.setItems([navItem], animated: false)
+         self.view.addSubview(navBar)
+     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Fav List"
+
         view.backgroundColor = .systemBackground
         self.favTableView.delegate = self
         self.favTableView.dataSource = self
+        setNavigationBar()
         configureTableView()
+    }
+
+    @objc func editButton() {
+        favTableView.setEditing(!favTableView.isEditing, animated: true)
     }
     
     private func configureTableView() {
         view.addSubview(favTableView)
         NSLayoutConstraint.activate([
-            favTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            favTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             favTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             favTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             favTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
     }
-
 }
 
 extension FavoriteVC: UITableViewDelegate, UITableViewDataSource {
@@ -69,4 +81,9 @@ extension FavoriteVC: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedFavList = favList.remove(at: sourceIndexPath.row)
+        favList.insert(movedFavList, at: destinationIndexPath.row)
+        tableView.reloadData()
+    }
 }

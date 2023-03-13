@@ -9,7 +9,6 @@ class TabBarVC: UITabBarController {
         view.backgroundColor = .systemBackground
         let coinListVC = CoinListVC()
         let favoriteVC = FavoriteVC()
-        navigationItem.title = "Coin Market"
         setViewControllers([coinListVC, favoriteVC], animated: true)
         coinListVC.title = "Coin List"
         favoriteVC.title = "Favorite"
@@ -20,10 +19,8 @@ class TabBarVC: UITabBarController {
         for x in 0...1 {
             items[x].image = UIImage(systemName: images[x])
         }
- 
     }
     
-
 
 
 }
