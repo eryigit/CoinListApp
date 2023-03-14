@@ -16,7 +16,7 @@ class FavoriteVC: UIViewController {
          let navBar = UINavigationBar(frame: CGRect(x: 0, y: 55, width: self.view.frame.width, height: 44))
          navBar.barTintColor = .white
          let navItem = UINavigationItem(title: "Favorite Coins")
-         let doneItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButton))
+         let doneItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(editButton))
          navItem.rightBarButtonItem = doneItem
          navBar.setItems([navItem], animated: false)
          self.view.addSubview(navBar)
@@ -86,4 +86,10 @@ extension FavoriteVC: UITableViewDelegate, UITableViewDataSource {
         favList.insert(movedFavList, at: destinationIndexPath.row)
         tableView.reloadData()
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+    
+    
 }
